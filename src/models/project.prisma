@@ -1,0 +1,17 @@
+model Project {
+    id     String @id @default(uuid())
+    title   String
+    zip_code Int
+    cost Int
+    done Boolean
+    deadline DateTime
+    username String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    author User @relation(fields: [username], references: [username])
+}
+
+model User {
+    username String @unique
+    projects Project[]
+}
