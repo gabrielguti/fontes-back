@@ -17,7 +17,7 @@ export class UserController {
 
       const isExistantUser = await prisma.user.findUnique({ where: { username }})
       if(isExistantUser) {
-        return res.status(404).json({error: "Username already exists."})
+        return res.status(404).json({message: "Username already exists."})
       } 
 
       const hashedPassword = await bcrypt.hash(req.body.password, 10)
@@ -48,7 +48,7 @@ export class UserController {
       const isExistantUser = await this.userService.login({username:username})
 
       if(!isExistantUser) {
-        return res.status(404).json({error: "Username not found."})
+        return res.status(404).json({message: "Username not found."})
       }
 
       const match = await bcrypt.compare(password, isExistantUser.password);

@@ -46,7 +46,9 @@ class App {
     this.app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
     //Enables cors
-    this.app.use(cors());
+    this.app.use(cors({
+      origin: "http://localhost:5173"
+    }));
 
   }
 

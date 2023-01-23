@@ -12,7 +12,7 @@ export class ProjectController {
     try {
       const { username } = req.headers;
       const project = await this.projectService.createProject({
-        ...req.body, username
+        ...req.body, username, done: false
       });
 
       res.status(201).json(project);
@@ -32,7 +32,7 @@ export class ProjectController {
         return res.status(200).json({projects: existantUserProjects})
 
       }else {
-        return res.status(404).json({error: "Username is required."})
+        return res.status(404).json({message: "Username is required."})
       }
     } catch (error){
 next(error)
@@ -40,7 +40,7 @@ next(error)
   }
   getProjectById = async (req: Request, res: Response, next: NextFunction) => {
     try{
-      const {project_id} = req.body;
+      const {project_id} = req.headers;
       if(!project_id){
         return res.status(404).json({message: "project_id is required."})
       }
@@ -66,11 +66,11 @@ next(error)
     try{
       const {username} = req.headers
       if(!username){
-        return res.status(404).json({error: "Username is required."})
+        return res.status(404).json({message: "Username is required."})
       }
       const {id} = req.params;
       if(!id){
-        return res.status(404).json({error: "Id is required."})
+        return res.status(404).json({message: "Id is required."})
       }
       const project = await this.projectService.deleteProjectById({username:username, id:id})
 
@@ -91,7 +91,7 @@ next(error)
       const {id} = req.params
 
       if(!username){
-        return res.status(404).json({error: "Username is required."})
+        return res.status(404).json({message: "Username is required."})
       }
   
       const projectToEdit = await this.projectService.editProjectFields({
@@ -104,7 +104,7 @@ next(error)
       })
 
       if(projectToEdit.count === 0){
-        return res.status(404).json({error: "Not possible to update."})
+        return res.status(404).json({message: "Not possible to update."})
       }
 
       return  res.status(200).json({message: 'Project updated.'})
@@ -119,16 +119,16 @@ next(error)
       const {id} = req.params
 
       if(!username){
-        return res.status(404).json({error: 'Username is required.'})
+        return res.status(404).json({message: 'Username is required.'})
       }
       if(!id){
-        return res.status(404).json({error: 'Id is required.'})
+        return res.status(404).json({message: 'Id is required.'})
       }
 
       const projectToEditStatus = await this.projectService.editStatusProject({id:id, username:username})
 
       if(projectToEditStatus.count === 0){
-        return res.status(404).json({error: "Not possible to update."})
+        return res.status(404).json({message: "Not possible to update."})
       }
       return res.status(200).json({message: 'Project updated.'})
 
