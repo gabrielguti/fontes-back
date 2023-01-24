@@ -66,19 +66,19 @@ next(error)
     try{
       const {username} = req.headers
       if(!username){
-        return res.status(404).json({message: "Username is required."})
+        return res.status(404).json({error: "Username is required."})
       }
       const {id} = req.params;
       if(!id){
-        return res.status(404).json({message: "Id is required."})
+        return res.status(404).json({error: "Id is required."})
       }
       const project = await this.projectService.deleteProjectById({username:username, id:id})
 
       if(project.count === 0){
-        return res.status(404).json({message: 'No project to delete.'})
+        return res.status(404).json({error: 'No project to delete.'})
       }
       
-      return res.status(200).json({message: 'Project deleted with success.'})
+      return res.status(200).json({message: 'Project deleted.'})
     } catch (error){
       next(error)
     }
@@ -104,7 +104,7 @@ next(error)
       })
 
       if(projectToEdit.count === 0){
-        return res.status(404).json({message: "Not possible to update."})
+        return res.status(404).json({error: "Not possible to update."})
       }
 
       return  res.status(200).json({message: 'Project updated.'})
